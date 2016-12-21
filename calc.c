@@ -126,7 +126,6 @@ void stack_pop() {
   free_list2();
   stack_head = new_st_node->next;
   free(new_st_node);
-
 }
 
 void stack_push(char sign) {
@@ -283,6 +282,7 @@ void plusplus(char sign_f, char sign_s) {
     stack_pop();
     stack_pop();
     stack_push(sign_f);
+    return;
   }
   else {
     if(compare(stack_head->head, stack_head->next->head)) {
@@ -290,11 +290,13 @@ void plusplus(char sign_f, char sign_s) {
       stack_pop();
       stack_pop();
       stack_push(sign_s);
+      return;
     } else {
       minusTwoLists(stack_head->next->head, stack_head->head);
       stack_pop();
       stack_pop();
       stack_push(sign_f);
+      return;
     }
   }
 }
@@ -403,12 +405,14 @@ void multymulty(char sign_f, char sign_s) {
     stack_pop();
     stack_pop();
     stack_push('0');
+    return;
   }
   else {
     multiplyTwoLists(stack_head->next->head, stack_head->head);
     stack_pop();
     stack_pop();
     stack_push('1');
+    return;
   }
 }
 
@@ -420,12 +424,14 @@ void minusminus(char sign_f, char sign_s) {
         stack_pop();
         stack_pop();
         stack_push('0');
+        return;
       }
       if(sign_f=='1') {
         minusTwoLists(stack_head->next->head, stack_head->head);
         stack_pop();
         stack_pop();
         stack_push('1');
+        return;
       }
     }
     else {
@@ -434,12 +440,14 @@ void minusminus(char sign_f, char sign_s) {
         stack_pop();
         stack_pop();
         stack_push('1');
+        return;
       }
       if(sign_f=='1') {
         minusTwoLists(stack_head->head, stack_head->next->head);
         stack_pop();
         stack_pop();
         stack_push('0');
+        return;
       }
 
     }
@@ -450,12 +458,14 @@ void minusminus(char sign_f, char sign_s) {
       stack_pop();
       stack_pop();
       stack_push('1');
+      return;
     }
     if(sign_f == '0') {
       addTwoLists(stack_head->head, stack_head->next->head);
       stack_pop();
       stack_pop();
       stack_push('0');
+      return;
     }
   }
 }
@@ -647,6 +657,49 @@ LOOP:
 
 }
 
+void devdev(char sign_f, char sign_s, Bignum *f, Bignum *s) {
+  if(compare(s, f) == 1) {
+    num_head = NULL;
+    num_tail = NULL;
+    node_push(0);
+    stack_pop();
+    stack_pop();
+    stack_push('0');
+    return;
+  }
+
+  if(compare(f, s) == 1) {
+    if(sign_f == sign_s) {
+      delenie(stack_head->next->tail, stack_head->head);
+      stack_pop();
+      stack_pop();
+      stack_push('0');
+      return;
+    } else {
+        delenie(stack_head->next->tail, stack_head->head);
+        stack_pop();
+        stack_pop();
+        stack_push('1');
+        return;
+      }
+  }
+
+  if(compare(f, s) == 2) {
+    num_head = NULL;
+    num_tail = NULL;
+    node_push(1);
+    stack_pop();
+    stack_pop();
+    if(sign_f == sign_s) {
+      stack_push('0');
+      return;
+  } else {
+      stack_push('1');
+      return;
+    }
+  }
+}
+
 int main() {
   printf("Reverse Polish notation calculator with long arithmetic.\nBig numbers will be saved in Stack.\n'+' '-' '*' '/' -- standard operations.\n'=' -- output Stack head.\n's' -- output entire Stack.\n'q' -- quit.\n");
   while (1)
@@ -666,7 +719,7 @@ int main() {
       }
     case '*':
       if(stack_head && stack_head->next) {
-        multymulty( stack_head->next->sign, stack_head->sign);
+        multymulty(stack_head->next->sign, stack_head->sign);
         break;
       }
       else {
@@ -674,10 +727,7 @@ int main() {
         break;
       }
     case '/':
-      delenie(stack_head->next->tail, stack_head->head);
-      stack_pop();
-      stack_pop();
-      stack_push('0');
+      devdev(stack_head->next->sign, stack_head->sign, stack_head->next->head, stack_head->head);
       break;
     case '-':
       if ((c = getchar()) != '\n')
@@ -716,7 +766,6 @@ int main() {
 }
 
 /*
-1. dodelat' delenie
 2. razbit' kod na chasti
 3. napisat', kak rabotaet i pereimenovat' funkcii (num_head i num_head, v nih zapisqvajutsja 4isla posle vq4isleniy)
 */
