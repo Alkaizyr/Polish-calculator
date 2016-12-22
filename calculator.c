@@ -7,7 +7,6 @@
 
 int main()
 {
-
   printf("Reverse Polish notation calculator with long arithmetic.\nBig numbers will be saved in Stack.\n'+' '-' '*' '/' -- standard operations.\n'=' -- output Stack head.\n's' -- output entire Stack.\n'q' -- quit.\n");
   while (1) {
     char c = getchar();
@@ -15,7 +14,6 @@ int main()
     case '+':
       if(stack_head && stack_head->next) {
         Addition( stack_head->next->sign, stack_head->sign);
-
         break;
       } else {
         printf("Not enough operands! -- empty stack.\n");

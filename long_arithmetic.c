@@ -7,7 +7,6 @@
 
 void BignumAdd(Bignum *f_head, Bignum *s_head)
 {
-
   num_head=NULL;
   num_tail=NULL;
   int sum = 0, carry = 0;
@@ -235,13 +234,13 @@ void BignumMultiply(Bignum *f_head, Bignum *s_head)
 
   num_head = result_head;
   num_tail = result_tail;
-
 }
 
 void Multiplication(char sign_f, char sign_s)
 {
   if(sign_f == sign_s) {
     BignumMultiply(stack_head->next->head, stack_head->head);
+//printf("multiplication\n");
     StackPop();
     StackPop();
     StackPush('0');
